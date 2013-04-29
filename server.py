@@ -26,7 +26,6 @@ class DeadParrot(object):
 
 	def GET(self):
 		slug = cherrypy.request.slug
-		print slug
 		if not slug in self.data:
 			raise cherrypy.NotFound()
 		data = self.data.pop(slug)
