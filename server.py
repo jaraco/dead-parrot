@@ -24,17 +24,12 @@ class DeadParrot(object):
         url = cherrypy.url('/{slug}'.format(slug=slug))
         return json.dumps(dict(url=url))
 
-    def GET(self):
-        slug = cherrypy.request.slug
+    def GET(self, slug):
         if not slug in self.data:
             raise cherrypy.NotFound()
         data = self.data.pop(slug)
         cherrypy.response.headers['Content-Type'] = data['type']
         return data['content']
-
-    def _cp_dispatch(self, vpath):
-        cherrypy.request.slug = vpath.pop(0)
-        return self
 
     @classmethod
     def helloooooo(cls):
