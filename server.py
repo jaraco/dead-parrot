@@ -15,6 +15,9 @@ class DeadParrot(object):
     exposed = True
 
     def POST(self):
+        """
+        We're all out of parrots, but we do have a slug.
+        """
         slug = uuid.uuid4()
         data = dict(
             content=cherrypy.request.body.read(),
