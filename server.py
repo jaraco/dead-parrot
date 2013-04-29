@@ -22,6 +22,7 @@ class DeadParrot(object):
         )
         self.data[unicode(slug)] = data
         url = cherrypy.url('/{slug}'.format(slug=slug))
+        cherrypy.request.headers['Access-Control-Allow-Origin'] = '*'
         return json.dumps(dict(url=url))
 
     def GET(self, slug):
