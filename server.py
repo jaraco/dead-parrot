@@ -37,6 +37,7 @@ class DeadParrot(object):
             'global': {
                 'server.socket_host': '::0',
                 'server.socket_port': int(os.environ.get('PORT', 8080)),
+                'environment': 'production',
             },
             '/': {
                 'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
