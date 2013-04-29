@@ -5,50 +5,50 @@ import json
 import cherrypy
 
 class DeadParrot(object):
-	"""
-	http://www.youtube.com/watch?v=4vuW6tQ0218
+    """
+    http://www.youtube.com/watch?v=4vuW6tQ0218
 
-	A server that just parrots back the content you send to it.
-	"""
+    A server that just parrots back the content you send to it.
+    """
 
-	data = {}
-	exposed = True
+    data = {}
+    exposed = True
 
-	def POST(self):
-		slug = uuid.uuid4()
-		data = dict(
-			content=cherrypy.request.body.read(),
-			type=cherrypy.request.headers['Content-Type'],
-		)
-		self.data[unicode(slug)] = data
-		url = cherrypy.url('/{slug}'.format(slug=slug))
-		return json.dumps(dict(url=url))
+    def POST(self):
+        slug = uuid.uuid4()
+        data = dict(
+            content=cherrypy.request.body.read(),
+            type=cherrypy.request.headers['Content-Type'],
+        )
+        self.data[unicode(slug)] = data
+        url = cherrypy.url('/{slug}'.format(slug=slug))
+        return json.dumps(dict(url=url))
 
-	def GET(self):
-		slug = cherrypy.request.slug
-		if not slug in self.data:
-			raise cherrypy.NotFound()
-		data = self.data.pop(slug)
-		cherrypy.response.headers['Content-Type'] = data['type']
-		return data['content']
+    def GET(self):
+        slug = cherrypy.request.slug
+        if not slug in self.data:
+            raise cherrypy.NotFound()
+        data = self.data.pop(slug)
+        cherrypy.response.headers['Content-Type'] = data['type']
+        return data['content']
 
-	def _cp_dispatch(self, vpath):
-		cherrypy.request.slug = vpath.pop(0)
-		return self
+    def _cp_dispatch(self, vpath):
+        cherrypy.request.slug = vpath.pop(0)
+        return self
 
-	@classmethod
-	def helloooooo(cls):
-		config = {
-			'global': {
-				'server.socket_host': '::0',
-				'server.socket_port': int(os.environ.get('PORT', 8080)),
-			},
-			'/': {
-				'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
-				'tools.decode.on': False,
-			},
-		}
-		cherrypy.quickstart(cls(), config=config)
+    @classmethod
+    def helloooooo(cls):
+        config = {
+            'global': {
+                'server.socket_host': '::0',
+                'server.socket_port': int(os.environ.get('PORT', 8080)),
+            },
+            '/': {
+                'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
+                'tools.decode.on': False,
+            },
+        }
+        cherrypy.quickstart(cls(), config=config)
 
 if __name__ == '__main__':
-	DeadParrot.helloooooo()
+    DeadParrot.helloooooo()
