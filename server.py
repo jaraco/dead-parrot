@@ -33,6 +33,7 @@ class DeadParrot(object):
             raise cherrypy.NotFound()
         data = self.data.pop(slug)
         cherrypy.response.headers['Content-Type'] = data['type']
+        cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
         return data['content']
 
     @classmethod
