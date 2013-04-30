@@ -17,6 +17,8 @@ req = urllib2.Request(root,
 		'Content-Type': 'text/plain',
 	},
 )
-res = json.loads(urllib2.urlopen(req).read())
+resp = urllib2.urlopen(req)
+assert resp.headers['Access-Control-Allow-Origin'] == '*'
+res = json.loads(resp.read())
 new_url = res['url']
 assert urllib2.urlopen(new_url).read() == data
