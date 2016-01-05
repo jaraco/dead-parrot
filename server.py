@@ -23,7 +23,7 @@ class DeadParrot(object):
             content=cherrypy.request.body.read(),
             type=cherrypy.request.headers['Content-Type'],
         )
-        self.data[unicode(slug)] = data
+        self.data[str(slug)] = data
         url = cherrypy.url('/{slug}'.format(slug=slug))
         cherrypy.response.headers['Access-Control-Allow-Origin'] = '*'
         return json.dumps(dict(url=url))
