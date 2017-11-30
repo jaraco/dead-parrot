@@ -5,7 +5,7 @@ import json
 import cherrypy
 
 
-class DeadParrot(object):
+class DeadParrot:
     """
     http://www.youtube.com/watch?v=4vuW6tQ0218
 
