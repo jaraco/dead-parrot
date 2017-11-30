@@ -4,6 +4,7 @@ import json
 
 import cherrypy
 
+
 class DeadParrot(object):
     """
     http://www.youtube.com/watch?v=4vuW6tQ0218
@@ -29,7 +30,7 @@ class DeadParrot(object):
         return json.dumps(dict(url=url))
 
     def GET(self, slug):
-        if not slug in self.data:
+        if slug not in self.data:
             raise cherrypy.NotFound()
         data = self.data.pop(slug)
         cherrypy.response.headers['Content-Type'] = data['type']
@@ -50,6 +51,7 @@ class DeadParrot(object):
             },
         }
         cherrypy.quickstart(cls(), config=config)
+
 
 if __name__ == '__main__':
     DeadParrot.helloooooo()
