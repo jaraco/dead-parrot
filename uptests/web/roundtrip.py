@@ -1,22 +1,19 @@
 #!/usr/bin/env python
 
-import argparse
-
+import autocommand
 import requests
 import portend
 
-parser = argparse.ArgumentParser()
-parser.add_argument('host')
-parser.add_argument('port', type=int)
-args = parser.parse_args()
-portend.occupied(args.host, args.port, timeout=10)
 
-root = 'http://{args.host}:{args.port}/'.format_map(locals())
-data = "dparrot uptest"
-headers = {
-	'Content-Type': 'text/plain',
-}
-resp = requests.post(root, data=data, headers=headers)
-assert resp.headers['Access-Control-Allow-Origin'] == '*'
-new_url = resp.json()['url']
-assert requests.get(new_url).text == data
+@autocommand.autocommand(__name__)
+def main(host, port: int):
+	portend.occupied(host, port, timeout=10)
+	data = "dparrot uptest"
+	headers = {
+		'Content-Type': 'text/plain',
+	}
+	resp = requests.post(f'http://{host}:{port}/', data=data, headers=headers)
+
+	assert resp.headers['Access-Control-Allow-Origin'] == '*'
+	new_url = resp.json()['url']
+	assert requests.get(new_url).text == data
